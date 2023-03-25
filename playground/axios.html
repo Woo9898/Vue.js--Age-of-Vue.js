@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="getData">get user</button> <!--버튼 클릭 시 click이벤트 발생하고 getData메서드 실행-->
+        {{users}} //<!--users 표시-->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios를 CDN 방식으로 불러옴-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        new Vue({
+            el:'#app',
+            data: {
+                users:[]
+            },
+            methods:{
+                getData: function(){
+                    var vm = this; //굳이 this를 vm에 할당해서 쓰는 이유는? this가 실행context에 따라 변하기에
+                    axios.get('https://jsonplaceholder.typicode.com/users/')//예시 데이터를 get으로 가져옴
+                    .then(function(response){ //then으로 비동기 처리 // 익명함수 실행
+                        console.log(response.data); // 콘솔에 데이터 표시
+                        vm.users = response.data; //this.users 배열에 가져온 데이터 추가 
+                    })
+                    .catch(function(error){ //에러처리
+                        console.log(error);
+                    })
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>
